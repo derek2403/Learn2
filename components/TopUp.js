@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+const TopUp = () => {
+  const [coinValue, setCoinValue] = useState(0);
+  const [suiValue, setSuiValue] = useState('');
 
-const Withdrawal = () => {
-  const [coinValue, setCoinValue] = useState('');
-  const [suiValue, setSuiValue] = useState(0);
-
-  const handleCoinValueChange = (e) => {
+  const handleSuiValueChange = (e) => {
     const value = e.target.value;
-    setCoinValue(value);
-    setSuiValue(value / 3000);
+    setSuiValue(value);
+    setCoinValue(Math.floor(value * 3000));
   };
 
   const router = useRouter();
@@ -24,32 +23,40 @@ const Withdrawal = () => {
       </Head>
       <div className="container">
         <div className="exchangeContainer">
-          <div className="field">
-            <img src="/coin.png" alt="Coin" className="icon" />
+          <div className="field sui">
+            <img
+              src="/sui.png"
+              alt="Sui"
+              className="icon"
+            />
             <input
               type="number"
-              value={coinValue}
-              onChange={handleCoinValueChange}
-              className="input"
+              value={suiValue}
+              onChange={handleSuiValueChange}
+              className="suiInput"
               placeholder="0"
             />
           </div>
           <span className="arrow">→</span>
-          <div className="field sui">
-            <img src="/sui.png" alt="Sui" className="icon" />
+          <div className="field">
+            <img
+              src="/coin.png"
+              alt="Coin"
+              className="icon"
+            />
             <input
-                type="number"
-                value={suiValue}
-                readOnly
-                className="suiInput"
+              type="number"
+              value={coinValue}
+              readOnly
+              className="input"
             />
           </div>
         </div>
         <div className="rateAndButtons">
           <div className="rateContainer">
-            <div className="rate">Today rate<br/>3000 : 1 SUI</div>
+            <div className="rate">Today rate<br />1SUI : 3000</div>
             <div className="buttons">
-              <button className="confirmButton">Withdraw</button>
+              <button className="confirmButton">Top Up</button>
               <button className="cancelButton" onClick={() => router.back()}>Cancel</button>
             </div>
           </div>
@@ -77,12 +84,12 @@ const Withdrawal = () => {
         }
         .field {
           display: flex;
-          flex-direction: column;          
+          flex-direction: column;
           align-items: center;
           margin: 0 10px;
           width: 420px;
           height: 420px;
-          background-color:#FFFFED;
+          background-color: #FFFFED;
           border-radius: 6px;
         }
         .icon {
@@ -158,4 +165,4 @@ const Withdrawal = () => {
   );
 }
 
-export default Withdrawal;
+export default TopUp;

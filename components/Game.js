@@ -30,6 +30,11 @@ const GamePlay = () => {
       return;
     }
 
+    if (e.key === 'b' || e.key === 'B') {
+      router.push('/bank');
+      return;
+    }
+
     let newPos = { ...position };
     let newMapPos = { ...mapPosition };
     switch (e.key) {
