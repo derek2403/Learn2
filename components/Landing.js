@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import FloatingLoginButton from '../components/FloatingLoginButton'; // Import the FloatingLoginButton component
 import StartGameButton from '../components/StartGame'; // Import the StartGameButton component
+import Image from 'next/image';
 
 const LandingPage = () => {
   return (
@@ -14,6 +15,10 @@ const LandingPage = () => {
         <div className="buttons">
           <FloatingLoginButton />
           <StartGameButton /> 
+        </div>
+        <div className="logo-container">
+          <Image src="/LEarn.png" alt="LEarn Logo" layout="fill" objectFit="cover" className="logo" />
+          <Image src="/csy.gif" alt="Additional Image" width={400} height={400} className="additional-image" />
         </div>
       </main>
       <style jsx global>{`
@@ -79,6 +84,23 @@ const LandingPage = () => {
         }
         .play-button:hover {
           background-color: #0059c1;
+        }
+        .logo-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .logo {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+        .additional-image {
+          position: absolute;
+          right: -550px; /* Adjust this value as needed */
+          top: -250px;
+          transform: translateY(-50%);
         }
       `}</style>
     </div>
