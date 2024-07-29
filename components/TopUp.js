@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import FloatingBalance from '../components/FloatingBalance';
 
 const TopUp = () => {
   const [coinValue, setCoinValue] = useState(0);
@@ -10,6 +11,23 @@ const TopUp = () => {
     const value = e.target.value;
     setSuiValue(value);
     setCoinValue(Math.floor(value * 3000));
+  };
+
+  const handleTopUp = async () => {
+    const response = await fetch('/api/updateCoinBalance', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ additionalCoins: coinValue }),
+    });
+
+    if (response.ok) {
+      alert('Top Up successful!');
+      router.reload();  // Reload the page to update the balance
+    } else {
+      alert('Top Up failed. Please try again.');
+    }
   };
 
   const router = useRouter();
@@ -22,6 +40,7 @@ const TopUp = () => {
         <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Sedan+SC&display=swap" rel="stylesheet" />
       </Head>
       <div className="container">
+        <FloatingBalance />
         <div className="exchangeContainer">
           <div className="field sui">
             <img
@@ -56,7 +75,7 @@ const TopUp = () => {
           <div className="rateContainer">
             <div className="rate">Today rate<br />1SUI : 3000</div>
             <div className="buttons">
-              <button className="confirmButton">Top Up</button>
+              <button className="confirmButton" onClick={handleTopUp}>Top Up</button>
               <button className="cancelButton" onClick={() => router.back()}>Cancel</button>
             </div>
           </div>

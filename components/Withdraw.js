@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-
+import FloatingBalance from '../components/FloatingBalance';
 
 const Withdrawal = () => {
   const [coinValue, setCoinValue] = useState('');
@@ -11,6 +11,24 @@ const Withdrawal = () => {
     const value = e.target.value;
     setCoinValue(value);
     setSuiValue(value / 3000);
+  };
+
+  const handleWithdrawal = async () => {
+    const response = await fetch('/api/updateCoinBalanceForWithdrawal', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ deductedCoins: parseInt(coinValue, 10) }),
+    });
+
+    if (response.ok) {
+      alert('Withdrawal successful!');
+      router.reload();  // Reload the page to update the balance
+    } else {
+      const result = await response.json();
+      alert(`Withdrawal failed: ${result.error}`);
+    }
   };
 
   const router = useRouter();
@@ -23,6 +41,7 @@ const Withdrawal = () => {
         <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Sedan+SC&display=swap" rel="stylesheet" />
       </Head>
       <div className="container">
+        <FloatingBalance />
         <div className="exchangeContainer">
           <div className="field">
             <img src="/coin.png" alt="Coin" className="icon" />
@@ -38,18 +57,18 @@ const Withdrawal = () => {
           <div className="field sui">
             <img src="/sui.png" alt="Sui" className="icon" />
             <input
-                type="number"
-                value={suiValue}
-                readOnly
-                className="suiInput"
+              type="number"
+              value={suiValue}
+              readOnly
+              className="suiInput"
             />
           </div>
         </div>
         <div className="rateAndButtons">
           <div className="rateContainer">
-            <div className="rate">Today rate<br/>3000 : 1 SUI</div>
+            <div className="rate">Today rate<br />3000 : 1 SUI</div>
             <div className="buttons">
-              <button className="confirmButton">Withdraw</button>
+              <button className="confirmButton" onClick={handleWithdrawal}>Withdraw</button>
               <button className="cancelButton" onClick={() => router.back()}>Cancel</button>
             </div>
           </div>
@@ -57,7 +76,7 @@ const Withdrawal = () => {
       </div>
       <style jsx>{`
         .container {
-          background-image: url('/background2.jpg'); /* Place your second image in the public folder with this name */
+          background-image: url('/background2.jpg');
           background-color: brown;
           background-size: cover;
           background-position: center;
@@ -68,7 +87,7 @@ const Withdrawal = () => {
           align-items: center;
           gap: 30px;
           padding: 20px;
-          font-family: 'Pixelify Sans', 'Courier New', Courier, monospace; /* Same font as SchoolTutorial */
+          font-family: 'Pixelify Sans', 'Courier New', Courier, monospace;
         }
         .exchangeContainer {
           display: flex;
@@ -77,12 +96,12 @@ const Withdrawal = () => {
         }
         .field {
           display: flex;
-          flex-direction: column;          
+          flex-direction: column;
           align-items: center;
           margin: 0 10px;
           width: 420px;
           height: 420px;
-          background-color:#FFFFED;
+          background-color: #FFFFED;
           border-radius: 6px;
         }
         .icon {
@@ -103,8 +122,8 @@ const Withdrawal = () => {
           padding: 5px;
           font-size: 30px;
           text-align: center;
-          border: none; /* Remove the border */
-          background: transparent; /* Optional: make the background transparent */
+          border: none;
+          background: transparent;
         }
         .arrow {
           font-size: 200px;
