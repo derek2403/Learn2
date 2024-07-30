@@ -39,13 +39,13 @@
     "name": "Porsche",
     "price": 1000,
     "imageUrl": "/porsche.png",
-    "available": true
+    "available": false
   },
   {
     "id": 7,
     "name": "Bentley",
     "price": 2000,
     "imageUrl": "/bentley.png",
-    "available": true
+    "available": false
   }
 ]

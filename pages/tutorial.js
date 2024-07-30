@@ -8,7 +8,7 @@ import FloatingBalance from '../components/FloatingBalance';
 const SchoolTutorial = () => {
   const router = useRouter();
   const [text, setText] = useState('');
-  const fullText = 'T o save money, set clear goals, create a budget, and cut unnecessary expenses. Automate savings, build an emergency fund, shop smartly, and pay off high-interest debt. Regularly review and adjust your budget to stay on track.';
+  const fullText = 'To save money, set clear goals, create a budget, and cut unnecessary expenses. Automate savings, build an emergency fund, shop smartly, and pay off high-interest debt. Regularly review and adjust your budget to stay on track.';
   const typingSpeed = 10;
 
   useEffect(() => {
@@ -37,6 +37,32 @@ const SchoolTutorial = () => {
     return () => {
       window.removeEventListener('keypress', handleKeyPress);
     };
+  }, []);
+
+  const fetchLearningContent = async () => {
+    try {
+      const res = await fetch('/api/openai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: 'generateLearningContent' }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        const messageData = JSON.parse(data.message);
+        console.log('Generated Content:', messageData);
+      } else {
+        alert('Failed to load learning content');
+      }
+    } catch (error) {
+      console.error('Error fetching learning content:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLearningContent();
   }, []);
 
   return (
@@ -69,7 +95,6 @@ const SchoolTutorial = () => {
           justify-content: center;
           align-items: center;
           padding: 0 20px;
-
         }
         .blackboard {
           background-image: url('/blackboard.png');
