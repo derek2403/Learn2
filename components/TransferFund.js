@@ -3,7 +3,7 @@ import { Ed25519Keypair } from '@mysten/sui.js/keypairs/ed25519';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { SuiClient } from '@mysten/sui.js/client';
 
-const MNEMONIC = 'melody earth grocery front rug purpose into define fit body secret sense';
+const MNEMONIC = 'wild spoon era outer apart slide maximum trouble photo observe cigar arrowe';
 const DERIVATION_PATH = `m/44'/784'/0'/0'/0'`;
 
 const TransferFunds = ({ userAddress, suiValue, onTransferComplete }) => {
