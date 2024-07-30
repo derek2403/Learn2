@@ -9,6 +9,13 @@
         "price": 1200,
         "imageUrl": "/mclaren.png",
         "available": false
+      },
+      {
+        "id": 2,
+        "name": "Lamborghini",
+        "price": 1200,
+        "imageUrl": "/lamborghini.png",
+        "available": false
       }
     ]
   }

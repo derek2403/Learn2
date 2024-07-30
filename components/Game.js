@@ -27,18 +27,23 @@ const GamePlay = () => {
   }, []);
 
   const handleKeyDown = (e) => {
-    if (e.key === 't' || e.key === 'T') {
+    if (e.key === '1') {
       router.push('/tutorial');
       return;
     }
 
-    if (e.key === 'y' || e.key === 'Y') {
+    if (e.key === '2') {
       router.push('/bank');
       return;
     }
 
-    if (e.key === 'u' || e.key === 'U') {
+    if (e.key === '3') {
       router.push('/shop');
+      return;
+    }
+
+    if (e.key === '4') {
+      router.push('/showcase');
       return;
     }
 

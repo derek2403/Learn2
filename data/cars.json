@@ -11,7 +11,7 @@
     "name": "Lamborghini",
     "price": 1200,
     "imageUrl": "/lamborghini.png",
-    "available": true
+    "available": false
   },
   {
     "id": 3,

@@ -65,7 +65,7 @@ const Shop = () => {
           justify-content: center;
           align-items: center;
           font-family: 'Pixelify Sans', sans-serif;
-          height: 100vh;
+          height: 90vh;
           position: relative;
         }
 
@@ -81,7 +81,7 @@ const Shop = () => {
           width: 80%;
           height: 200px;
           object-fit: cover;
-          border-radius: 5px;
+          border-radius: 10px;
         }
 
         .purchase-button {
@@ -107,13 +107,12 @@ const Shop = () => {
           color: black;
           padding: 10px;
           border-radius: 15px;
-          border-top-right-radius: 0px;
-          border-bottom-right-radius: 0px;
           margin-top: 60px;
           text-align: center;
           font-family: 'Pixelify Sans', sans-serif;
           font-size: 30px;
           height: 120px;
+          margin-right: 20px;
         }
 
         .car-list {
@@ -122,6 +121,8 @@ const Shop = () => {
           padding: 24px;
           height: 70%;
           overflow-y: auto;
+          border-radius: 10px;
+          scrollbar-width: none;
         }
 
         .car-item {
