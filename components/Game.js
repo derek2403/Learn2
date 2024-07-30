@@ -47,6 +47,11 @@ const GamePlay = () => {
       return;
     }
 
+    if (e.key === '5') {
+      router.push('/simulation');
+      return;
+    }
+
     let newPos = { ...position };
     let newMapPos = { ...mapPosition };
     switch (e.key) {
