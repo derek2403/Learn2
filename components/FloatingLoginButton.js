@@ -131,6 +131,7 @@ export default function FloatingLoginButton({ onLogin }) {
           padding: 10px;
           transition: all 0.3s ease;
           color: transparent;
+          z-index: 1000;
           
         }
         

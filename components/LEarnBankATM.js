@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 
+
 const LEarnBankATM = () => {
   const router = useRouter();
 
@@ -20,6 +21,7 @@ const LEarnBankATM = () => {
         <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Sedan+SC&display=swap" rel="stylesheet" />
       </Head>
       <div className="atm">
+      
         <div className="header">LEarn Bank</div>
         <div className="main">
           <div className="side-panel">

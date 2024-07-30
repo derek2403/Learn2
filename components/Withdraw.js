@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import FloatingBalance from '../components/FloatingBalance';
 
 const Withdrawal = () => {
-  const [coinValue, setCoinValue] = useState('');
-  const [suiValue, setSuiValue] = useState(0);
+  const [coinValue, setCoinValue] = useState(3000);
+  const [suiValue, setSuiValue] = useState(3000 / 3000);
 
   const handleCoinValueChange = (e) => {
     const value = e.target.value;
@@ -46,11 +46,21 @@ const Withdrawal = () => {
           <div className="field">
             <img src="/coin.png" alt="Coin" className="icon" />
             <input
+              type="range"
+              min="3000"
+              max="100000" // Set an appropriate max value
+              step="100"
+              value={coinValue}
+              onChange={handleCoinValueChange}
+              className="slider"
+            />
+            <input
               type="number"
               value={coinValue}
               onChange={handleCoinValueChange}
               className="input"
               placeholder="0"
+              min="3000"
             />
           </div>
           <span className="arrow">→</span>
@@ -66,7 +76,7 @@ const Withdrawal = () => {
         </div>
         <div className="rateAndButtons">
           <div className="rateContainer">
-            <div className="rate">Today rate<br />3000 : 1 SUI</div>
+            <div className="rate">Today's Rate<br />3000 : 1 SUI</div>
             <div className="buttons">
               <button className="confirmButton" onClick={handleWithdrawal}>Withdraw</button>
               <button className="cancelButton" onClick={() => router.back()}>Cancel</button>
@@ -110,6 +120,10 @@ const Withdrawal = () => {
           margin-right: 10px;
           margin-top: 20px;
           margin-bottom: 20px;
+        }
+        .slider {
+          width: 300px;
+          margin: 10px 0;
         }
         .input {
           width: 205px;
