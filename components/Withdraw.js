@@ -2,18 +2,26 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import FloatingBalance from '../components/FloatingBalance';
+import FloatingLoginButton from '../components/FloatingLoginButton';
+import TransferFunds from '../components/TransferFund'; // Import the TransferFunds component
 
 const Withdrawal = () => {
   const [coinValue, setCoinValue] = useState(3000);
-  const [suiValue, setSuiValue] = useState(3000 / 3000);
+  const [suiValue, setSuiValue] = useState(3000 / 30000000);
+  const [zkLoginUserAddress, setZkLoginUserAddress] = useState(null);
+  const [showTransfer, setShowTransfer] = useState(false);
 
   const handleCoinValueChange = (e) => {
     const value = e.target.value;
     setCoinValue(value);
-    setSuiValue(value / 3000);
+    setSuiValue(value / 30000000);
   };
 
   const handleWithdrawal = async () => {
+    setShowTransfer(true);
+  };
+
+  const handleTransferComplete = async () => {
     const response = await fetch('/api/updateCoinBalanceForWithdrawal', {
       method: 'POST',
       headers: {
@@ -31,6 +39,10 @@ const Withdrawal = () => {
     }
   };
 
+  const handleLogin = (address) => {
+    setZkLoginUserAddress(address);
+  };
+
   const router = useRouter();
 
   return (
@@ -42,6 +54,7 @@ const Withdrawal = () => {
       </Head>
       <div className="container">
         <FloatingBalance />
+        <FloatingLoginButton onLogin={handleLogin} />
         <div className="exchangeContainer">
           <div className="field">
             <img src="/coin.png" alt="Coin" className="icon" />
@@ -83,6 +96,9 @@ const Withdrawal = () => {
             </div>
           </div>
         </div>
+        {showTransfer && zkLoginUserAddress && (
+          <TransferFunds userAddress={zkLoginUserAddress} suiValue={suiValue} onTransferComplete={handleTransferComplete} />
+        )}
       </div>
       <style jsx>{`
         .container {
