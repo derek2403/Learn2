@@ -89,7 +89,7 @@ const Withdrawal = () => {
         </div>
         <div className="rateAndButtons">
           <div className="rateContainer">
-            <div className="rate">Today's Rate<br />3000 : 1 SUI</div>
+            <div className="rate">Today's Rate<br />30000000 : 1 SUI</div>
             <div className="buttons">
               <button className="confirmButton" onClick={handleWithdrawal}>Withdraw</button>
               <button className="cancelButton" onClick={() => router.back()}>Cancel</button>

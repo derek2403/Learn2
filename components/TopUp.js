@@ -10,7 +10,7 @@ const TopUp = () => {
   const handleSuiValueChange = (e) => {
     const value = e.target.value;
     setSuiValue(value);
-    setCoinValue(Math.floor(value * 3000));
+    setCoinValue(Math.floor(value * 30000000));
   };
 
   const handleTopUp = async () => {
@@ -73,7 +73,7 @@ const TopUp = () => {
         </div>
         <div className="rateAndButtons">
           <div className="rateContainer">
-            <div className="rate">Today's Rate<br />1 SUI : 3000</div>
+            <div className="rate">Today's Rate<br />1 SUI : 30000000</div>
             <div className="buttons">
               <button className="confirmButton" onClick={handleTopUp}>Top Up</button>
               <button className="cancelButton" onClick={() => router.back()}>Cancel</button>
