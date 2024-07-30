@@ -2,50 +2,50 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-const carDatabase = [
-  { name: 'Mc Laren', price: 1200, imageUrl: '/mclaren.png' },
-  { name: 'Lamborghini', price: 1200, imageUrl: '/lamborghini.png' },
-  { name: 'Ferrari', price: 1200, imageUrl: '/ferrari.png' },
-  { name: 'BMW', price: 950, imageUrl: '/bmw.png' },
-  { name: 'Mercedes', price: 900, imageUrl: '/mercedes.png' },
-  { name: 'Porsche', price: 1000, imageUrl: '/porsche.png' },
-  { name: 'Bentley', price: 2000, imageUrl: '/bentley.png' },
-];
-
 const Shop = () => {
-  const [selectedCar, setSelectedCar] = useState(carDatabase[0]);
-  const [balance, setBalance] = useState(0);
+  const [cars, setCars] = useState([]);
+  const [selectedCar, setSelectedCar] = useState(null);
+  const [purchasedCars, setPurchasedCars] = useState([]);
+  const [userId, setUserId] = useState(1);  // Assuming user ID is 1 for this example
   const router = useRouter();
 
   useEffect(() => {
-    // Fetch the coin balance from the API
-    fetch('/api/getCoinBalance')
-      .then((response) => response.json())
-      .then((data) => setBalance(data.balance))
-      .catch((error) => console.error('Error fetching coin balance:', error));
-  }, []);
+    fetch('/api/getCars')
+      .then(response => response.json())
+      .then(data => {
+        setCars(data);
+        setSelectedCar(data.find(car => car.available));
+      })
+      .catch(error => console.error('Error fetching car data:', error));
+
+    fetch(`/api/getUser?id=${userId}`)
+      .then(response => response.json())
+      .then(data => setPurchasedCars(data.purchasedCars))
+      .catch(error => console.error('Error fetching user data:', error));
+  }, [userId]);
 
   const handlePurchase = async () => {
-    if (balance < selectedCar.price) {
-      alert('Insufficient balance to purchase this car.');
+    if (!selectedCar) {
+      alert('No car selected.');
       return;
     }
 
-    const response = await fetch('/api/updateCoinBalanceForPurchase', {
+    const response = await fetch('/api/updatePurchase', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ deductedCoins: selectedCar.price }),
+      body: JSON.stringify({ carId: selectedCar.id, userId }),
     });
 
     if (response.ok) {
       const data = await response.json();
-      setBalance(data.balance);
+      setPurchasedCars(data.purchasedCars);
       alert('Purchase successful!');
-      router.reload();  // Reload the page to update the balance
+      router.reload();  // Reload the page to update the car list
     } else {
-      alert('Purchase failed. Please try again.');
+      const result = await response.json();
+      alert(`Purchase failed: ${result.error}`);
     }
   };
 
@@ -160,25 +160,37 @@ const Shop = () => {
           text-align: right;
           white-space: nowrap;
         }
+
+        .sold-out {
+          text-decoration: line-through;
+          cursor: not-allowed;
+          color: red;
+        }
       `}</style>
       <div className="shop-container">
         <div className="car-image-container">
-          <img
-            src={selectedCar.imageUrl}
-            alt={selectedCar.name}
-            className="car-image"
-          />
-          <button className="purchase-button" onClick={handlePurchase}>Purchase</button>
-          <div className="message">
-            Make your favourite car in your collection...
-          </div>
+          {selectedCar ? (
+            <>
+              <img
+                src={selectedCar.imageUrl}
+                alt={selectedCar.name}
+                className="car-image"
+              />
+              <button className="purchase-button" onClick={handlePurchase}>Purchase</button>
+              <div className="message">
+                Make your favourite car in your collection...
+              </div>
+            </>
+          ) : (
+            <div>No car available for purchase</div>
+          )}
         </div>
         <div className="car-list">
-          {carDatabase.map((car, index) => (
+          {cars.map((car, index) => (
             <div
               key={index}
-              className="car-item"
-              onClick={() => setSelectedCar(car)}
+              className={`car-item ${!car.available ? 'sold-out' : ''}`}
+              onClick={() => car.available && setSelectedCar(car)}
             >
               <div className="car-item-name">
                 {index + 1}. {car.name}
