@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import FloatingLoginButton from '../components/FloatingLoginButton';
+import FloatingBalance from '../components/FloatingBalance';
 
 const SchoolQuiz = () => {
   const [text, setText] = useState('');
@@ -35,6 +37,9 @@ const SchoolQuiz = () => {
 
   return (
     <div className="container">
+      
+      <FloatingBalance />
+      <FloatingLoginButton />
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />

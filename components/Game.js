@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import FloatingBalance from './FloatingBalance';
+import FloatingLoginButton from './FloatingLoginButton';
 
 const GamePlay = () => {
   const mapWidth = 4240;
@@ -25,8 +27,28 @@ const GamePlay = () => {
   }, []);
 
   const handleKeyDown = (e) => {
-    if (e.key === 't' || e.key === 'T') {
+    if (e.key === '1') {
       router.push('/tutorial');
+      return;
+    }
+
+    if (e.key === '2') {
+      router.push('/bank');
+      return;
+    }
+
+    if (e.key === '3') {
+      router.push('/shop');
+      return;
+    }
+
+    if (e.key === '4') {
+      router.push('/showcase');
+      return;
+    }
+
+    if (e.key === '5') {
+      router.push('/simulation');
       return;
     }
 
@@ -87,6 +109,7 @@ const GamePlay = () => {
 
   return (
     <div className="gameContainer">
+      <FloatingLoginButton />
       <div className="mapWrapper">
         <div className="mapContainer">
           <Image src="/assets/map.png" alt="Map" layout="fill" />
