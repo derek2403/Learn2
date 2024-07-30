@@ -1,12 +1,16 @@
+// pages/shop.js
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import MintNFT from '../components/MintNFT';
 
 const Shop = () => {
   const [cars, setCars] = useState([]);
   const [selectedCar, setSelectedCar] = useState(null);
   const [purchasedCars, setPurchasedCars] = useState([]);
   const [userId, setUserId] = useState(1);  // Assuming user ID is 1 for this example
+  const [status, setStatus] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -45,7 +49,15 @@ const Shop = () => {
       // Deduct the car price from the user's balance
       await updateBalance(-selectedCar.price);
 
-      alert('Purchase successful!');
+
+      // Mint NFT for the user
+      const userAddress = localStorage.getItem('zkLoginUserAddress');
+      if (userAddress) {
+        await MintNFT(userAddress, setStatus, setIsLoading);
+      } else {
+        console.error('No zkLogin user address found.');
+      }
+
       router.reload();  // Reload the page to update the car list
     } else {
       const result = await response.json();
@@ -226,6 +238,7 @@ const Shop = () => {
           ))}
         </div>
       </div>
+      {status && <p>{status}</p>}
     </>
   );
 };

@@ -1,1 +1,0 @@
-sui client call --package 0xe9ba2ef7ca1e2f183edf6827b35f1fab4a030e471da7cb9b13944b4ddd7e26e4 --module sui_nft --function mint --args "Porsche" "This is a Porsche" "https://drive.google.com/uc?export=download&id=1ptqQF6b-h9vcU_Eb20sBFOlJq3ToZ5He" --gas-budget 10000000 
