@@ -1,8 +1,54 @@
+import React, { useEffect } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import FloatingLoginButton from '../components/FloatingLoginButton';
 import FloatingBalance from '../components/FloatingBalance';
 
 export default function Simulation() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleKeyPress = async (event) => {
+      if (event.key === 'L' || event.key === 'l') {
+        alert("Congratulations! You've earned 500 coins in this trade.");
+        await updateBalance(500);
+        router.reload(); // Reload the page to update the balance
+      } else if (event.key === 'R' || event.key === 'r') {
+        alert("Oops! You've lost 500 coins in this trade.");
+        await updateBalance(-500);
+        router.reload(); // Reload the page to update the balance
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [router]);
+
+  const updateBalance = async (amount) => {
+    try {
+      const response = await fetch('/api/updateCoinBalance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ additionalCoins: amount }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('New balance:', data.balance); // Optional: for debugging
+      } else {
+        const error = await response.json();
+        alert(`Failed to update balance: ${error.message}`);
+      }
+    } catch (error) {
+      console.error('Error updating balance:', error);
+    }
+  };
+
   return (
     <div className="container">
       <FloatingBalance />

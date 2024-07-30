@@ -41,11 +41,34 @@ const Shop = () => {
     if (response.ok) {
       const data = await response.json();
       setPurchasedCars(data.purchasedCars);
+
+      // Deduct the car price from the user's balance
+      await updateBalance(-selectedCar.price);
+
       alert('Purchase successful!');
       router.reload();  // Reload the page to update the car list
     } else {
       const result = await response.json();
       alert(`Purchase failed: ${result.error}`);
+    }
+  };
+
+  const updateBalance = async (amount) => {
+    try {
+      const response = await fetch('/api/updateCoinBalanceForWithdrawal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ deductedCoins: Math.abs(amount) }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(`Failed to update balance: ${error.message}`);
+      }
+    } catch (error) {
+      console.error('Error updating balance:', error);
     }
   };
 
