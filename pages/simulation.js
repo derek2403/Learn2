@@ -12,11 +12,11 @@ export default function Simulation() {
       if (event.key === 'L' || event.key === 'l') {
         alert("Congratulations! You've earned 500 coins in this trade.");
         await updateBalance(500);
-        router.reload(); // Reload the page to update the balance
+        router.push('/game'); // Reload the page to update the balance
       } else if (event.key === 'R' || event.key === 'r') {
         alert("Oops! You've lost 500 coins in this trade.");
         await updateBalance(-500);
-        router.reload(); // Reload the page to update the balance
+        router.push('/game'); // Reload the page to update the balance
       }
     };
 
